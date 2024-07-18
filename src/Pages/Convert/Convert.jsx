@@ -55,7 +55,7 @@ const ConversionModal = ({ isOpen, onRequestClose, handleConvert }) => (
   </Modal>
 );
 
-const Convert = ({title,fileType}) => {
+const Convert = ({title,fileType,convertEndPoint}) => {
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [fileId, setFileId] = useState('');
@@ -97,8 +97,8 @@ const Convert = ({title,fileType}) => {
   const handleConvert = async () => {
     console.log("Convert id", fileId);
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/v1/pdf/convert/word/`, {
-        params: { file_id: fileId }
+      const response = await axios.post(`http://127.0.0.1:8000/api/v1${convertEndPoint}`, {
+       id: fileId 
       });
 
       if (response.data.statusCode === 200) {
