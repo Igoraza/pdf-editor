@@ -5,6 +5,8 @@ import { AiFillFilePpt } from "react-icons/ai";
 import { FaCode } from "react-icons/fa6";
 import { MdTextFields } from "react-icons/md";
 import { LuCombine } from "react-icons/lu";
+import { FaFileCsv } from "react-icons/fa";
+
 import { Card } from '../../Components/Card'
 export default function ConverterTool() {
   return (
@@ -71,7 +73,7 @@ const converterToolsText = [
         title: "Word to PDF",
         bg: "bg-red-400",
         caption: "Make DOC and DOCX files easy to read by converting them to PDF",
-        link: "/"
+        link: "/word-to-pdf"
     },
     {
         id:7,
@@ -128,5 +130,13 @@ const converterToolsText = [
         bg: "bg-blue-400",
         caption: "Combine files in over 100 formats to PDF",
         link: "/"
+    },
+    {
+        id:13,
+        icon: <FaFileCsv/>,
+        title: "PDF to CSV",
+        bg: "bg-blue-400",
+        caption: "PDF to CSV",
+        link: "/pdf-to-csv"
     },
 ]

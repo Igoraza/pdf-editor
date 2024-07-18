@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
 import { FiDownload, FiUpload } from 'react-icons/fi';
 import Modal from 'react-modal';
 
-const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus }) => (
+const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus,fileType }) => (
   <div className="flex flex-col items-center">
-    <FileUploader handleChange={handleChange} name="file" types={["PDF", "JPG", "PNG"]} />
+    <FileUploader handleChange={handleChange} name="file" types={fileType} />
     <button
       onClick={handleFileUpload}
       className="bg-green-500 hover:bg-green-600 hover:scale-110 transition duration-300 ease-in-out w-36 h-12 rounded-md shadow-md shadow-black/25 ring-1 ring-green-600/90 inset-ring-1 inset-ring-white/5 inset-shadow-sm inset-shadow-white/10 text-white font-bold mt-4 flex items-center justify-center gap-x-2"
@@ -55,11 +55,15 @@ const ConversionModal = ({ isOpen, onRequestClose, handleConvert }) => (
   </Modal>
 );
 
-const Convert = () => {
+const Convert = ({title,fileType}) => {
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [fileId, setFileId] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0,0)
+  },[])
 
   const handleChange = (file) => {
     setFile(file);
@@ -128,8 +132,8 @@ const Convert = () => {
 
   return (
     <main className="min-h-screen flex flex-col gap-y-4 items-center justify-center bg-gray-100 p-6">
-      <h3 className="text-3xl font-bold text-gray-800">PDF to Word</h3>
-      <UploadComponent handleChange={handleChange} handleFileUpload={handleFileUpload} uploadStatus={uploadStatus} />
+      <h3 className="text-3xl font-bold text-gray-800">{title}</h3>
+      <UploadComponent handleChange={handleChange} handleFileUpload={handleFileUpload} uploadStatus={uploadStatus} fileType={fileType} />
       {fileId && <DownloadComponent handleDownload={handleDownload} />}
       <ConversionModal
         isOpen={isModalOpen}
