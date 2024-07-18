@@ -79,7 +79,7 @@ const converterToolsText = [
         title: "PDF to Word",
         bg: "bg-purple-400",
         caption: "Conver PDFs to editable Word documents",
-        link: "/"
+        link: "/pdf-to-word"
     },
     {
         id:8,
