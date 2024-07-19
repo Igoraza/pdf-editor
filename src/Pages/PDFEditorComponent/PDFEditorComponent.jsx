@@ -1,73 +1,89 @@
 import React, { useEffect, useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
+import { AiOutlineCloudUpload, AiOutlineFilePdf } from 'react-icons/ai';
+import { BsDownload } from 'react-icons/bs';
 import 'tailwindcss/tailwind.css';
 
 export default function PDFEditorComponent() {
-    useEffect(() => {
-        window.scrollTo(0,0)
-    },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [pdfFile, setPdfFile] = useState(null);
   const [editedPdfUrl, setEditedPdfUrl] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       const arrayBuffer = await file.arrayBuffer();
       setPdfFile(arrayBuffer);
+      setMessage('PDF file uploaded successfully.');
+    } else {
+      setMessage('Please upload a valid PDF file.');
     }
   };
 
   const handleEditPdf = async () => {
-    if (!pdfFile) return;
+    if (!pdfFile) {
+      setMessage('No PDF file to process.');
+      return;
+    }
 
-    // Load a PDFDocument from the existing PDF bytes
-    const pdfDoc = await PDFDocument.load(pdfFile);
+    try {
+      const pdfDoc = await PDFDocument.load(pdfFile);
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
 
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfDoc.save();
-
-    // Create a Blob from the PDFBytes and create a URL
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-
-    // Set the edited PDF URL to state
-    setEditedPdfUrl(url);
+      setEditedPdfUrl(url);
+      setMessage('PDF processed successfully.');
+    } catch (error) {
+      setMessage('Error processing PDF file.');
+    }
   };
 
   const handleDownloadPdf = () => {
     if (editedPdfUrl) {
       saveAs(editedPdfUrl, 'edited.pdf');
+      setMessage('PDF downloaded successfully.');
+    } else {
+      setMessage('No edited PDF to download.');
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 space-y-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center p-6 bg-gray-100 space-y-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">PDF Editor</h1>
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
         <label
           htmlFor="pdf-upload"
-          className="block text-lg font-medium text-gray-700"
+          className="flex flex-col items-center text-lg font-medium text-gray-700 cursor-pointer"
         >
-          Upload your PDF
+          <AiOutlineCloudUpload className="text-6xl text-green-500" />
+          <span className="mt-2">Upload your PDF</span>
+          <input
+            id="pdf-upload"
+            type="file"
+            accept="application/pdf"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
         </label>
-        <input
-          id="pdf-upload"
-          type="file"
-          accept="application/pdf"
-          onChange={handleFileUpload}
-          className="mt-2 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-        />
+        {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
       </div>
       {pdfFile && (
         <button
           onClick={handleEditPdf}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-sm hover:bg-blue-600"
+          className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition duration-300"
         >
+          <AiOutlineFilePdf className="mr-2" />
           Process PDF
         </button>
       )}
       {editedPdfUrl && (
-        <div className="w-full max-w-2xl flex flex-col items-center">
+        <div className="w-full max-w-2xl flex flex-col items-center bg-white rounded-lg shadow-md p-4">
           <iframe
             src={editedPdfUrl}
             width="100%"
@@ -77,8 +93,9 @@ export default function PDFEditorComponent() {
           />
           <button
             onClick={handleDownloadPdf}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg shadow-sm hover:bg-green-600"
+            className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition duration-300"
           >
+            <BsDownload className="mr-2" />
             Download Edited PDF
           </button>
         </div>
