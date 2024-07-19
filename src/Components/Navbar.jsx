@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
     const Links = [
         { id: 1, title: "Compress Image", path: "/" },
-        { id: 2, title: "Compress PDF", path: "/" },
-        { id: 3, title: "Merge PDF", path: "/" },
-        { id: 4, title: "PDF Editor", path: "/pdf-editor" },
+        { id: 2, title: "PDF Editor", path: "/pdf-editor" },
     ]
 
     const [isOpen, setOpen] = useState(false)
