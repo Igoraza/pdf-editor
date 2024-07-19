@@ -33,7 +33,7 @@ const converterToolsText = [
         title: "Edit PDF",
         bg: "bg-red-400",
         caption: "Rotate and add text,images, and shape to a pdf",
-        link: "/"
+        link: "/pdf-editor"
     },
     {
         id:2,

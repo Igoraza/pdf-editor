@@ -8,16 +8,16 @@ export default function Navbar() {
         { id: 1, title: "Compress Image", path: "/" },
         { id: 2, title: "Compress PDF", path: "/" },
         { id: 3, title: "Merge PDF", path: "/" },
-        { id: 4, title: "PDF Editor", path: "/" },
+        { id: 4, title: "PDF Editor", path: "/pdf-editor" },
     ]
 
     const [isOpen, setOpen] = useState(false)
     const handleCLick = () => setOpen(() => !isOpen)
     return (
         <nav className='navbar border-b lg:px-20 flex items-center justify-between z-50'>
-            <div>
+            <Link to="/">
                 <h3 className='text-2xl font-bold'>PDF<span className='text-green-500'>TOOL</span></h3>
-            </div>
+            </Link>
             {/* ? menu */}
             {/* ! navbar menu for the desktop view */}
             <div className="hidden lg:block">
