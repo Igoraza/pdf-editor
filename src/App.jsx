@@ -15,6 +15,8 @@ export default function App() {
         <Route path='/pdf-to-word' element={<Convert title={"PDF to Word"} convertEndPoint={'/pdf/convert/word/'} fileType={["PDF"]}/>}/>
         <Route path='/word-to-pdf' element={<Convert title={"Word to PDF"} convertEndPoint={'/word/convert/pdf/'} fileType={["DOCX"]}/>}/>
         <Route path='/pdf-to-csv' element={<Convert title={"PDF to CSV"} convertEndPoint={'/pdf/convert/csv/'} fileType={["PDF"]}/>}/>
+        <Route path='/pdf-to-excel' element={<Convert title={"PDF to Excel"} convertEndPoint={'/pdf/convert/csv/'} fileType={["PDF"]}/>}/>
+
 
       </Routes>
       <Footer/>

@@ -62,7 +62,7 @@ const editorToolText = [
     title: "PDF to Excel",
     bg: "bg-green-400",
     caption: "Convert PDFs to editable Excel spreadsheets",
-    link: "/"
+    link: "/pdf-to-excel"
   },
   {
     id: 6,
