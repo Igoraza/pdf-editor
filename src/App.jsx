@@ -7,6 +7,7 @@ import Pdf2Pic from './Pages/Pdf2Pic/Pdf2Pic'
 import Convert from './Pages/Convert/Convert'
 import PDFEditorComponent from './Pages/PDFEditorComponent/PDFEditorComponent'
 import Encrypt from './Pages/Encrypt/Encrypt'
+import Merge from './Pages/Merge/Merge'
 export default function App() {
   return (
     <main>
@@ -23,6 +24,7 @@ export default function App() {
         
         
         <Route path="/encrypt" element={<Encrypt/>}/>
+        <Route path="/merge" element={<Merge/>}/>
         <Route path='/pdf-editor' element={<PDFEditorComponent/>}/>
 
       </Routes>
