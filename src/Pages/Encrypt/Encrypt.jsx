@@ -4,14 +4,14 @@ import { FileUploader } from 'react-drag-drop-files';
 import { FiLock, FiDownload } from 'react-icons/fi';
 
 const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus, password, setPassword }) => (
-  <div className="flex flex-col items-center">
+  <div className="flex flex-col items-center w-full">
     <FileUploader handleChange={handleChange} name="file" types={['PDF']} />
     <input
       type="password"
       placeholder="Enter encryption password"
       value={password}
       onChange={(e) => setPassword(e.target.value)}
-      className="mt-4 p-2 border rounded-md"
+      className="mt-4 p-2 border rounded-md w-full max-w-sm"
     />
     <button
       onClick={handleFileUpload}
@@ -20,8 +20,10 @@ const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus, passwor
       <FiLock />
       Encrypt
     </button>
-    {uploadStatus && (
-      <p className="mt-4 text-red-500 font-semibold">{uploadStatus}</p>
+    {uploadStatus.message && (
+      <p className={`mt-4 font-semibold ${uploadStatus.success ? 'text-green-500' : 'text-red-500'}`}>
+        {uploadStatus.message}
+      </p>
     )}
   </div>
 );
@@ -38,7 +40,7 @@ const DownloadComponent = ({ handleDownload }) => (
 
 const Encrypt = () => {
   const [file, setFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState('');
+  const [uploadStatus, setUploadStatus] = useState({ success: false, message: '' });
   const [fileId, setFileId] = useState('');
   const [password, setPassword] = useState('');
 
@@ -52,17 +54,17 @@ const Encrypt = () => {
 
   const handleFileUpload = async () => {
     if (!file) {
-      setUploadStatus('Please select a PDF file before encrypting.');
+      setUploadStatus({ success: false, message: 'Please select a PDF file before encrypting.' });
       return;
     }
 
     if (!password) {
-      setUploadStatus('Please enter a password for encryption.');
+      setUploadStatus({ success: false, message: 'Please enter a password for encryption.' });
       return;
     }
 
     try {
-      // First, upload the file
+      setUploadStatus({ success: true, message: 'Uploading file...' });
       const formData = new FormData();
       formData.append('file', file);
 
@@ -77,9 +79,10 @@ const Encrypt = () => {
       );
 
       const fileId = uploadResponse.data.response;
-      console.log("The file Saved ID: ",fileId)
+      console.log("The file Saved ID: ", fileId);
 
-      // Then, encrypt the file
+      setUploadStatus({ success: true, message: 'Encrypting file...' });
+
       const encryptResponse = await axios.post(
         'https://pdf-editor-backend-production.up.railway.app/api/v1/encrypt/pdf/',
         { id: fileId, password: password },
@@ -89,21 +92,21 @@ const Encrypt = () => {
           },
         }
       );
-    
+
       console.log("File Encrypted response ID:", encryptResponse.data.response);
-      setUploadStatus('File encrypted successfully.');
+      setUploadStatus({ success: true, message: 'File encrypted successfully.' });
       setFileId(encryptResponse.data.response);
     } catch (error) {
-      setUploadStatus('Failed to encrypt file.');
+      setUploadStatus({ success: false, message: 'Failed to encrypt file.' });
       console.error(error);
     }
   };
 
   const handleDownload = async () => {
     try {
-      // First, get the file information from the server
+      setUploadStatus({ success: true, message: 'Preparing file for download...' });
       const response = await axios.post(
-        'https://pdf-editor-backend-production.up.railway.app/api/v1/file/download/', 
+        'https://pdf-editor-backend-production.up.railway.app/api/v1/file/download/',
         { file_id: fileId },
         {
           headers: {
@@ -111,22 +114,19 @@ const Encrypt = () => {
           },
         }
       );
-  
+
       if (response.data.hasError) {
-        setUploadStatus('Failed to get file information.');
+        setUploadStatus({ success: false, message: 'Failed to get file information.' });
         console.error('File information error:', response.data.message.general);
         return;
       }
-  
-      // Extract the file URL from the response
+
       const fileUrl = `https://pdf-editor-backend-production.up.railway.app${response.data.response.file}`;
-  
-      // Fetch the file using the extracted URL
+
       const fileResponse = await axios.get(fileUrl, {
         responseType: 'blob',
       });
-  
-      // Create a download link for the file
+
       const blob = new Blob([fileResponse.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -135,18 +135,16 @@ const Encrypt = () => {
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
+      setUploadStatus({ success: true, message: 'File downloaded successfully.' });
     } catch (error) {
-      setUploadStatus('Failed to download encrypted file.');
+      setUploadStatus({ success: false, message: 'Failed to download encrypted file.' });
       console.error('Download error:', error);
     }
   };
-  
-  
-  
 
   return (
     <main className="min-h-screen flex flex-col gap-y-4 items-center justify-center bg-gray-100 p-6">
-      <h3 className="text-3xl font-bold text-gray-800">Encrypt PDF</h3>
+      <h3 className="text-3xl font-bold text-gray-800 mb-4">Encrypt PDF</h3>
       <UploadComponent 
         handleChange={handleChange} 
         handleFileUpload={handleFileUpload} 
