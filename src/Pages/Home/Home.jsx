@@ -10,7 +10,7 @@ export default function Home() {
     <section>
       <Hero/>
       <BrandBanner/>
-      <ConverterTool/>
+      {/* <ConverterTool/> */}
       <EditorTool/>
       <FileProcessing/>
     </section>
