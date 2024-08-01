@@ -23,7 +23,7 @@ export default function App() {
         <Route path='/pdf-to-csv' element={<Convert title={"PDF to CSV"} fileName="converted.csv" convertEndPoint={'/pdf/convert/csv/'} fileType={["PDF"]}/>}/>
         <Route path='/pdf-to-excel' element={<Convert title={"PDF to Excel"} fileName="converted.xlsx" convertEndPoint={'/pdf/convert/csv/'} fileType={["PDF"]}/>}/>
         <Route path='/image-to-pdf' element={<Convert title={"Image to PDF"} fileName="images.pdf" convertEndPoint={'/image/convert/pdf/'} fileType={["JPG","PNG","JPEG"]}/>}/>
-        {/* <Route path='/compress-pdf' element={<Convert title={"Compress Your  PDF"} fileName="compressed.pdf" convertEndPoint={'/compress/pdf/'} fileType={["PDF"]}/>}/> */}
+        <Route path='/compress-pdf' element={<Convert title={"Compress Your  PDF"} fileName="compressed.pdf" convertEndPoint={'/compress/pdf/'} fileType={["PDF"]}/>}/>
         
         
         
