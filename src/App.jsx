@@ -8,6 +8,8 @@ import Convert from './Pages/Convert/Convert'
 import PDFEditorComponent from './Pages/PDFEditorComponent/PDFEditorComponent'
 import Encrypt from './Pages/Encrypt/Encrypt'
 import Merge from './Pages/Merge/Merge'
+import PasswordRemover from './Pages/PasswordRemover/PasswordRemover'
+import Watermark from './Pages/WaterMark/WaterMark'
 export default function App() {
   return (
     <main>
@@ -25,6 +27,8 @@ export default function App() {
         
         <Route path="/encrypt" element={<Encrypt/>}/>
         <Route path="/merge" element={<Merge/>}/>
+        <Route path="/watermark" element={<Watermark/>}/>
+        <Route path="/password-remover" element={<PasswordRemover/>}/>
         <Route path='/pdf-editor' element={<PDFEditorComponent/>}/>
 
       </Routes>
