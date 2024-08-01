@@ -85,7 +85,7 @@ const Watermark = () => {
 
       const watermarkResponse = await axios.post(
         'https://pdf-editor-backend-production.up.railway.app/api/v1/watermark/pdf/',
-        { id: fileId, watermark_text: watermarkText },
+        { id: fileId, watermark: watermarkText },
         {
           headers: {
             'Content-Type': 'application/json',
