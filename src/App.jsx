@@ -10,6 +10,7 @@ import Encrypt from './Pages/Encrypt/Encrypt'
 import Merge from './Pages/Merge/Merge'
 import PasswordRemover from './Pages/PasswordRemover/PasswordRemover'
 import Watermark from './Pages/WaterMark/WaterMark'
+import Url2Pdf from './Pages/Url2Pdf/Url2Pdf'
 export default function App() {
   return (
     <main>
@@ -24,7 +25,7 @@ export default function App() {
         <Route path='/pdf-to-excel' element={<Convert title={"PDF to Excel"} fileName="converted.xlsx" convertEndPoint={'/pdf/convert/csv/'} fileType={["PDF"]}/>}/>
         <Route path='/image-to-pdf' element={<Convert title={"Image to PDF"} fileName="images.pdf" convertEndPoint={'/image/convert/pdf/'} fileType={["JPG","PNG","JPEG"]}/>}/>
         <Route path='/compress-pdf' element={<Convert title={"Compress Your  PDF"} fileName="compressed.pdf" convertEndPoint={'/compress/pdf/'} fileType={["PDF"]}/>}/>
-        
+        <Route path="/url2pdf" element={<Url2Pdf/>}/>
         
         
         <Route path="/encrypt" element={<Encrypt/>}/>
