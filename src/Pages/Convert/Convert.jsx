@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
 import { FiDownload, FiUpload } from 'react-icons/fi';
-import Modal from 'react-modal';
 
-const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus,fileType }) => (
-  <div className="flex flex-col items-center">
+const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus, fileType }) => (
+  <div className="flex flex-col items-center w-full">
     <FileUploader handleChange={handleChange} name="file" types={fileType} />
     <button
       onClick={handleFileUpload}
@@ -15,7 +14,9 @@ const UploadComponent = ({ handleChange, handleFileUpload, uploadStatus,fileType
       Upload
     </button>
     {uploadStatus && (
-      <p className="mt-4 text-red-500 font-semibold">{uploadStatus}</p>
+      <p className={`mt-4 font-semibold ${uploadStatus.success ? 'text-green-500' : 'text-red-500'}`}>
+        {uploadStatus.message}
+      </p>
     )}
   </div>
 );
@@ -30,40 +31,15 @@ const DownloadComponent = ({ handleDownload }) => (
   </button>
 );
 
-const ConversionModal = ({ isOpen, onRequestClose, handleConvert }) => (
-  <Modal
-    isOpen={isOpen}
-    onRequestClose={onRequestClose}
-    className="bg-white p-6 rounded-md shadow-lg flex flex-col items-center"
-  >
-    <h2 className="text-2xl font-bold mb-4">Convert File</h2>
-    <p className="mb-4">Do you want to convert the uploaded file?</p>
-    <div className="flex gap-x-4">
-      <button
-        onClick={handleConvert}
-        className="bg-green-500 hover:bg-green-600 w-24 h-10 rounded-md shadow-md text-white font-bold"
-      >
-        Yes
-      </button>
-      <button
-        onClick={onRequestClose}
-        className="bg-red-500 hover:bg-red-600 w-24 h-10 rounded-md shadow-md text-white font-bold"
-      >
-        No
-      </button>
-    </div>
-  </Modal>
-);
-
-const Convert = ({title,fileType,convertEndPoint}) => {
+const Convert = ({ title, fileType, convertEndPoint, fileName }) => {
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [fileId, setFileId] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConverted, setIsConverted] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0,0)
-  },[])
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleChange = (file) => {
     setFile(file);
@@ -71,9 +47,11 @@ const Convert = ({title,fileType,convertEndPoint}) => {
 
   const handleFileUpload = async () => {
     if (!file) {
-      setUploadStatus('Please select a file before uploading.');
+      setUploadStatus({ success: false, message: 'Please select a file before uploading.' });
       return;
     }
+
+    setUploadStatus({ success: true, message: 'Uploading file...' });
 
     try {
       const formData = new FormData();
@@ -85,61 +63,84 @@ const Convert = ({title,fileType,convertEndPoint}) => {
         },
       });
       console.log("File Uploaded response id", response.data.response);
-      setUploadStatus('File uploaded successfully.');
-      setFileId(response.data.response);
-      setIsModalOpen(true);
+      setUploadStatus({ success: true, message: 'File uploaded successfully.' });
+
+      // Trigger conversion API call after successful upload
+      handleConvert(response.data.response);
     } catch (error) {
-      setUploadStatus('Failed to upload file.');
+      setUploadStatus({ success: false, message: 'Failed to upload file.' });
       console.error(error);
     }
   };
 
-  const handleConvert = async () => {
+  const handleConvert = async (fileId) => {
     console.log("Convert id", fileId);
+    setUploadStatus({ success: true, message: 'Converting file...' });
+
     try {
       const response = await axios.post(`https://pdf-editor-backend-production.up.railway.app/api/v1${convertEndPoint}`, {
-       id: fileId 
+        id: fileId
       });
 
       if (response.data.statusCode === 200) {
-        setUploadStatus('File converted successfully.');
-        setIsModalOpen(false);
+        setUploadStatus({ success: true, message: 'File converted successfully.' });
+        setIsConverted(true);
+        setFileId(response.data.response)
       }
     } catch (error) {
-      setUploadStatus('Failed to convert file.');
+      setUploadStatus({ success: false, message: 'Failed to convert file.' });
       console.error(error.message);
     }
   };
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get('https://pdf-editor-backend-production.up.railway.app/api/v1/file/download', {
-        params: { file_id: fileId },
+      // First, get the file information from the server
+      const response = await axios.post(
+        'https://pdf-editor-backend-production.up.railway.app/api/v1/file/download/', 
+        { file_id: fileId },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log(response.data)
+      if (response.data.hasError) {
+        setUploadStatus('Failed to get file information.');
+        console.error('File information error:', response.data.message.general);
+        return;
+      }
+  
+      // Extract the file URL from the response
+      const fileUrl = `https://pdf-editor-backend-production.up.railway.app${response.data.response.file}`;
+  
+      // Fetch the file using the extracted URL
+      const fileResponse = await axios.get(fileUrl, {
         responseType: 'blob',
       });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+  
+      // Create a download link for the file
+      const blob = new Blob([fileResponse.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'converted_file.docx');
+      link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
+      link.parentNode.removeChild(link);
     } catch (error) {
-      setUploadStatus('Failed to download file.');
-      console.error(error);
+      setUploadStatus('Failed to download encrypted file.');
+      console.error('Download error:', error);
     }
   };
 
   return (
     <main className="min-h-screen flex flex-col gap-y-4 items-center justify-center bg-gray-100 p-6">
-      <h3 className="text-3xl font-bold text-gray-800">{title}</h3>
+      <h3 className="text-3xl font-bold text-gray-800 mb-4">{title}</h3>
       <UploadComponent handleChange={handleChange} handleFileUpload={handleFileUpload} uploadStatus={uploadStatus} fileType={fileType} />
-      {fileId && <DownloadComponent handleDownload={handleDownload} />}
-      <ConversionModal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        handleConvert={handleConvert}
-      />
+      {isConverted && <DownloadComponent handleDownload={handleDownload} />}
     </main>
   );
 };
