@@ -79,7 +79,7 @@ const Convert = ({title,fileType,convertEndPoint}) => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/file/save/', formData, {
+      const response = await axios.post('https://pdf-editor-backend-production.up.railway.app/api/v1/file/save/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -97,7 +97,7 @@ const Convert = ({title,fileType,convertEndPoint}) => {
   const handleConvert = async () => {
     console.log("Convert id", fileId);
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1${convertEndPoint}`, {
+      const response = await axios.post(`https://pdf-editor-backend-production.up.railway.app/api/v1${convertEndPoint}`, {
        id: fileId 
       });
 
@@ -113,7 +113,7 @@ const Convert = ({title,fileType,convertEndPoint}) => {
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/v1/file/download', {
+      const response = await axios.get('https://pdf-editor-backend-production.up.railway.app/api/v1/file/download', {
         params: { file_id: fileId },
         responseType: 'blob',
       });
