@@ -12,7 +12,7 @@ export default function EditorTool() {
       <p className='text-gray-500 mb-6 max-w-xl'>
         Make use of our collection of PDF tools to process digital and streamline your workflow seamlessly.
       </p>
-      <div className="flex flex-wrap gap-6 lg:px-20">
+      <div className="flex flex-wrap gap-6 lg:px-20 md:px-20 justify-center">
         {editorToolText.map((data) => (
           <div key={data.link} className="flex flex-col items-center">
             <Card content={data} />
