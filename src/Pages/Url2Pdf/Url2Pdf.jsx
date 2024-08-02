@@ -28,13 +28,12 @@ const UrlInputComponent = ({ handleUrlChange, handleUrlSubmit, conversionStatus 
 const DownloadComponent = ({ handleDownload }) => (
   <button
     onClick={handleDownload}
-    className="bg-blue-500 hover:bg-blue-600 hover:scale-110 transition duration-300 ease-in-out w-36 h-12 rounded-md shadow-md shadow-black/25 ring-1 ring-blue-600/90 inset-ring-1 inset-ring-white/5 inset-shadow-sm inset-shadow-white/10 text-white font-bold mt-4 flex items-center justify-center gap-x-2"
+    className="bg-green-500 hover:bg-green-600 hover:scale-110 transition duration-300 ease-in-out w-full md:w-72 lg:w-96 btn h-12 rounded-md shadow-md shadow-black/25 ring-1 ring-green-600/90 inset-ring-1 inset-ring-white/5 inset-shadow-sm inset-shadow-white/10 text-white font-bold mt-4 flex items-center justify-center gap-x-2"
   >
     <FiDownload />
     Download
   </button>
 );
-
 const Url2Pdf = () => {
   const [url, setUrl] = useState('');
   const [conversionStatus, setConversionStatus] = useState({ success: false, message: '' });
