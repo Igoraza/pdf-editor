@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Card = ({ content }) => {
   return (
-    <Link to={content.link} className="card bg-base-100 w-96 h-60 shadow-xl">
+    <Link to={content.link} className={`card bg-fixed hover:bg-green-200 bg-base-100 w-96 h-60 group border  hover:shadow-xl transition duration-300`}>
       <div className="card-body">
         <div className="flex items-center justify-between p-2">
           <div className={`flex items-center justify-center ${content.bg} p-3 text-2xl text-white rounded-lg`}>
