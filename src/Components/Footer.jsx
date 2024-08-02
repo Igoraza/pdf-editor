@@ -1,46 +1,47 @@
-import React from 'react'
+import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="footer bg-base-300 text-base-content p-10">
-  <aside>
-    <svg
-      width="50"
-      height="50"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fillRule="evenodd"
-      clipRule="evenodd"
-      className="fill-current">
-      <path
-        d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"></path>
-    </svg>
-    <p>
-      IGORAZA PVT LTD.
-      <br />
-      Innovation Meets Reality
-    </p>
-  </aside>
-  <nav>
-    <h6 className="footer-title">Services</h6>
-    <a className="link link-hover">Branding</a>
-    <a className="link link-hover">Design</a>
-    <a className="link link-hover">Marketing</a>
-    <a className="link link-hover">Advertisement</a>
-  </nav>
-  <nav>
-    <h6 className="footer-title">Company</h6>
-    <a className="link link-hover">About us</a>
-    <a className="link link-hover">Contact</a>
-    <a className="link link-hover">Jobs</a>
-    <a className="link link-hover">Press kit</a>
-  </nav>
-  <nav>
-    <h6 className="footer-title">Legal</h6>
-    <a className="link link-hover">Terms of use</a>
-    <a className="link link-hover">Privacy policy</a>
-    <a className="link link-hover">Cookie policy</a>
-  </nav>
-</footer>
-  )
+    <footer className="bg-gray-300 text-gray-900 p-10 flex flex-col md:flex-row justify-between flex-wrap">
+      <div className="mb-8 md:mb-0">
+        <h2 className="text-3xl font-bold mb-2">IGORAZA</h2>
+        <p className="text-sm mb-4">Innovation meets Reality</p>
+        <a href="https://www.igoraza.com/contact.html" target='_blank'>
+        <button className="bg-green-500 w-44 hover:bg-green-600 text-gray-900 btn border-none rounded-full flex items-center">
+          CONTACT US
+          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+        </a>
+      </div>
+
+      <div className="mb-8 md:mb-0">
+        <a href="#" className="block mb-2 text-green-600 font-bold">Home</a>
+        <a href="https://www.igoraza.com/works.html" target='_blank' className="block mb-2">Works</a>
+        <a href="https://www.igoraza.com/services.html" target='_blank' className="block mb-2">Services</a>
+        <a href="https://www.igoraza.com/contact.html" target='_blank' className="block">Contact</a>
+      </div>
+
+      <div className="mb-8 md:mb-0">
+        <a href="https://www.igoraza.com/privacy.html" target='_blank' className="block mb-2 text-black">Privacy Policy</a>
+        <a href="https://www.igoraza.com/termsandcondition.html" target='_blank' className="block mb-2 text-black">Terms & Conditions</a>
+        <a href="https://www.igoraza.com/cookies.html" target='_blank' className="block mb-2 text-black">Cookie Policy</a>
+        <a href="https://www.igoraza.com/career.html" target='_blank' className="block text-black">Careers</a>
+      </div>
+
+      <div className="mb-8 md:mb-0">
+        <p className="mb-2">IGORAZA PVT.LTD.</p>
+        <p className="mb-2">CIN:U62099KL2023PTC082259</p>
+        <p className="mb-2">Alappuzha, Kerala,</p>
+        <p>India</p>
+      </div>
+
+      <div>
+        <h3 className="font-bold mb-2">Contact Us</h3>
+        <a href="mailto:team@igoraza.com" className="block mb-2">team@igoraza.com</a>
+        <a href="tel:+917736886026">+917736886026</a>
+      </div>
+    </footer>
+  );
 }
