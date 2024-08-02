@@ -13,7 +13,7 @@ import Watermark from './Pages/WaterMark/WaterMark'
 import Url2Pdf from './Pages/Url2Pdf/Url2Pdf'
 export default function App() {
   return (
-    <main>
+    <main className='scroll-smooth'>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />

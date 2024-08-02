@@ -7,7 +7,7 @@ import { Card } from '../../Components/Card';
 
 export default function EditorTool() {
   return (
-    <section className='px-4 lg:px-16 py-8'>
+    <section id="all-tools" className='px-4 lg:px-16 py-8'>
       <h3 className='text-3xl font-bold mb-4'>Editor <span className='text-green-500'>Tool</span></h3>
       <p className='text-gray-500 mb-6 max-w-xl'>
         Make use of our collection of PDF tools to process digital and streamline your workflow seamlessly.

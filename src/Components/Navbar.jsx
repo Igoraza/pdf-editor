@@ -5,9 +5,18 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
     const Links = [
-        { id: 1, title: "Compress Image", path: "/" },
-        { id: 2, title: "PDF Editor", path: "/pdf-editor" },
-    ]
+        { id: 1, title: "Merge PDF", path: "/merge" },
+        { id: 2, title: "PDF to Excel", path: "/pdf-to-excel" },
+        { id: 3, title: "PDF to Word", path: "/pdf-to-word" },
+        { id: 4, title: "Compress PDF", path: "/compress-pdf" },
+        { id: 5, title: "PDF to CSV", path: "/pdf-to-csv" },
+        { id: 6, title: "Image to PDF", path: "/image-to-pdf" },
+        { id: 7, title: "Encrypt PDF", path: "/encrypt" },
+        { id: 8, title: "Add Watermark", path: "/watermark" },
+        { id: 9, title: "Password Remover", path: "/password-remover" },
+        { id: 10, title: "Word to PDF", path: "/word-to-pdf" }
+    ];
+    
 
     const [isOpen, setOpen] = useState(false)
     const handleCLick = () => setOpen(() => !isOpen)
@@ -21,25 +30,14 @@ export default function Navbar() {
             <div className="hidden lg:block">
                 <ul className="menu menu-horizontal px-1">
 
-                    <li>
-                        <details>
-                            <summary>
-                                All Tools
-                            </summary>
-                            <ul className="p-2 bg-base-100 rounded-t-none">
-                                {Links.map((data) => (
-                                    <li key={data.id}>
-                                        <Link to={data.path}>{data.title}</Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </details>
+                    <li className="btn bg-green-500 hover:bg-green-600 text-white">
+                        <a href="#all-tools">Features</a>
                     </li>
-                    {Links.map((data) => (
+                    {/* {Links.map((data) => (
                         <li key={data.id}>
                             <Link to={data.path}>{data.title}</Link>
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
             </div>
             {/* ! menu for the mobile screen */}
